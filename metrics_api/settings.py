@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-9b06t9x_6v!s76))7)py&r(-szptvq^mejndov%0+hk=%lejuv
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '.onrender.com']
+ALLOWED_HOSTS = ['localhost', 'backend-metrics-iweg.onrender.com']
 # ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
