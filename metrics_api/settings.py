@@ -1,12 +1,11 @@
 from pathlib import Path
 from datetime import timedelta
-import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-9b06t9x_6v!s76))7)py&r(-szptvq^mejndov%0+hk=%lejuv'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '.onrender.com']
 # ALLOWED_HOSTS = []
@@ -24,6 +23,11 @@ INSTALLED_APPS = [
     'custom_user',
     'drf_spectacular',
     'drf_spectacular_sidecar',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "https://dashlinemt.netlify.app"
 ]
 
 SIMPLE_JWT = {
@@ -47,7 +51,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_TOKEN_OBTAIN_PAIR_HANDLER': 'custom_user.serializers.CustomTokenObtainPairSerializer',  # Corrigido
+    'DEFAULT_TOKEN_OBTAIN_PAIR_HANDLER': 'custom_user.serializers.CustomTokenObtainPairSerializer',
 }
 
 SPECTACULAR_SETTINGS = {
@@ -58,6 +62,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,10 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'metrics_api.urls'
 
@@ -120,8 +122,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
