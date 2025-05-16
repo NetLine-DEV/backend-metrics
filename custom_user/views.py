@@ -61,7 +61,7 @@ class PasswordResetView(generics.GenericAPIView):
         if user:
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            frontend_url = f'http://localhost:4200/reset-password/{uid}/{token}/'
+            frontend_url = f'https://dashlinemt.netlify.app/reset-password/{uid}/{token}/'
             send_mail(
                 'Redefinição de senha',
                 f'Use este link para redefinir a sua senha:\n{frontend_url}',
