@@ -13,6 +13,7 @@ WORKDIR /metrics_api
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiando os arquivos de requisitos
@@ -20,9 +21,6 @@ COPY requirements.txt .
 
 # Instalando as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copiando o arquivo .env primeiro
-COPY .env .
 
 # Copiando o projeto
 COPY . .
@@ -33,14 +31,12 @@ RUN mkdir -p staticfiles
 # Coletando arquivos estáticos
 RUN python manage.py collectstatic --noinput
 
-# Aplicando migrações
-RUN python manage.py migrate
-
-# Criando o superusuário (apenas se não existir)
-RUN python manage.py createsuperuser --noinput || true
-
 # Expondo a porta 8000
 EXPOSE 8000
 
+# Script de inicialização
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Comando para iniciar a aplicação
-CMD ["gunicorn", "metrics_api.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4", "--timeout", "120", "--access-logfile", "-"]
+CMD ["/entrypoint.sh"]
