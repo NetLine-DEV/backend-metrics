@@ -2,8 +2,8 @@
 FROM python:3.12.2
 
 # Definindo variáveis de ambiente
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=metrics_api.settings
 
 # Criando e definindo o diretório de trabalho
@@ -32,6 +32,12 @@ RUN mkdir -p staticfiles
 
 # Coletando arquivos estáticos
 RUN python manage.py collectstatic --noinput
+
+# Aplicando migrações
+RUN python manage.py migrate
+
+# Criando o superusuário (apenas se não existir)
+RUN python manage.py createsuperuser --noinput || true
 
 # Expondo a porta 8000
 EXPOSE 8000
