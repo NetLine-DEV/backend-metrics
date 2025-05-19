@@ -1,0 +1,42 @@
+# Arquivos e diretórios do Git
+.git
+.gitignore
+
+# Arquivos Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.env
+
+# Arquivos de desenvolvimento
+*.log
+*.sqlite3
+*.db
+.DS_Store
+.idea/
+.vscode/
+
+# Arquivos de teste
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Arquivos de build
+build/
+dist/
+*.egg-info/
+
+# Arquivos de mídia e estáticos (se estiver usando armazenamento externo)
+media/
+staticfiles/
+
+# Outros
+*.bak
+*.swp
+*~ 
