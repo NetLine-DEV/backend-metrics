@@ -21,6 +21,9 @@ COPY requirements.txt .
 # Instalando as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copiando o arquivo .env primeiro
+COPY .env .
+
 # Copiando o projeto
 COPY . .
 
