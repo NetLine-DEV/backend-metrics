@@ -9,9 +9,6 @@ wait_for_postgres() {
     echo "PostgreSQL está pronto!"
 }
 
-# Instalando netcat para verificar a conexão com o banco
-apt-get update && apt-get install -y netcat-traditional
-
 # Aguardando o PostgreSQL estar pronto
 wait_for_postgres
 
@@ -19,10 +16,27 @@ wait_for_postgres
 echo "Aplicando migrações..."
 python manage.py migrate
 
-# Criando superusuário (apenas se não existir)
-echo "Criando superusuário..."
-python manage.py createsuperuser --noinput || true
+# Criando superusuário com variáveis do .env (se ainda não existir)
+echo "Verificando/criando superusuário..."
+python manage.py shell << EOF
+from django.contrib.auth import get_user_model
+import os
 
-# Iniciando o Gunicorn
+User = get_user_model()
+username = os.environ.get("DJANGO_SUPERUSER_USERNAME")
+email = os.environ.get("DJANGO_SUPERUSER_EMAIL")
+password = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
+
+if username and email and password:
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username, email, password)
+        print(f"Superusuário '{username}' criado.")
+    else:
+        print(f"Superusuário '{username}' já existe.")
+else:
+    print("Variáveis de superusuário não definidas. Pulando criação.")
+EOF
+
+# Iniciando Gunicorn
 echo "Iniciando Gunicorn..."
-exec gunicorn metrics_api.wsgi:application --bind 0.0.0.0:8000 --workers 4 --timeout 120 --access-logfile - 
+exec gunicorn metrics_api.wsgi:application --bind 0.0.0.0:8000 --workers 4 --timeout 120 --access-logfile -

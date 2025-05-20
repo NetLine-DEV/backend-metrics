@@ -30,8 +30,7 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",
-    "http://localhost:8000",
+    "http://localhost:8080",
     "https://dashlinemt.netlify.app"
 ]
 
@@ -99,12 +98,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'metrics_api.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 DATABASES = {
     'default': {
