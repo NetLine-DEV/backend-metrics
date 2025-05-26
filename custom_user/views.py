@@ -18,6 +18,7 @@ from django.contrib.contenttypes.models import ContentType
 from rest_framework.decorators import action
 from .models import CustomGroup
 from .permissions import IsAdminOrInAdminGroup
+import os
 
 User = get_user_model()
 
@@ -61,7 +62,8 @@ class PasswordResetView(generics.GenericAPIView):
         if user:
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            frontend_url = f'https://dashlinemt.netlify.app/reset-password/{uid}/{token}/'
+            url = os.getenv('FRONTEND_URL')
+            frontend_url = f'{url}/reset-password/{uid}/{token}/'
             send_mail(
                 'Redefinição de senha',
                 f'Use este link para redefinir a sua senha:\n{frontend_url}',

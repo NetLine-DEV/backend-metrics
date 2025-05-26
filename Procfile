@@ -1,1 +1,0 @@
-web: gunicorn metrics_api.wsgi

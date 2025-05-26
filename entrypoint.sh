@@ -16,6 +16,8 @@ wait_for_postgres
 echo "Aplicando migrações..."
 python manage.py migrate
 
+echo "Coletando arquivos estáticos..."
+python manage.py collectstatic --noinput
 # Criando superusuário com variáveis do .env (se ainda não existir)
 echo "Verificando/criando superusuário..."
 python manage.py shell << EOF

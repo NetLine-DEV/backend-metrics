@@ -21,6 +21,8 @@ ENV/
 /media/
 /staticfiles/
 
+*.tar
+
 # Arquivos de IDE
 .idea/
 .vscode/
